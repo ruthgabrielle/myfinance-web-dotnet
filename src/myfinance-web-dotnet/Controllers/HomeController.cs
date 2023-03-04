@@ -23,9 +23,29 @@ public class HomeController : Controller
         return View();
     }
 
+    // GET: Home/Create
+    public IActionResult Create()
+    {
+        ViewBag.Title = "Create";
+        return View();
+    }
+
+    [HttpPost]
+    public IActionResult Create(string name)
+    {
+        try {
+            return Content($"Email recebido : {name}");
+        }
+        catch {
+            return View();
+        }
+    }
+
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        return View(
+            new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier }
+        );
     }
 }
