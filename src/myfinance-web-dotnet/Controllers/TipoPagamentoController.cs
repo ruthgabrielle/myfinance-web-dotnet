@@ -12,7 +12,7 @@ namespace myfinance_web_dotnet.Controllers
             ViewBag.PagamentoId = new SelectList
                 (
                     new TipoPagamento().ListaTipoPagamento(),
-                    "Id",
+                    "PagamentoId",
                     "Descricao");
 
             return View();
@@ -24,7 +24,7 @@ namespace myfinance_web_dotnet.Controllers
 
             ViewBag.PagamentoId = new SelectList(
                 new TipoPagamento().ListaTipoPagamento(),
-                    "Id",
+                    "PagamentoId",
                     "Descricao",
                     id
                 );
