@@ -9,6 +9,6 @@ namespace myfinance_web_dotnet.Models
 
         public string? Tipo { get; set; }
 
-
+        public PlanoContaModel() { }
     }
 }

@@ -1,0 +1,41 @@
+@model myfinance_web_dotnet.Models.PlanoContaModel
+@{
+    ViewData["Title"] = "Plano de Contas";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<form asp-controller="PlanoConta" asp-action="Register" method="post">   
+
+    @Html.HiddenFor(m => m.Id)
+
+    <div class="form-group col-md-6">
+        @Html.LabelFor(m => m.Descricao)
+        @Html.TextBoxFor(m => m.Descricao, new { @class = "form-control" })
+    </div>
+    
+    <div class="form-group">
+        @Html.RadioButtonFor(model => model.Tipo, "D", false)
+        @Html.Label("Despesa")
+    </div>
+
+    <div class="form-group">
+        @Html.RadioButtonFor(model => model.Tipo, "R", false)
+        @Html.Label("Receita")
+    </div>
+
+    <div class="mb-3">
+        <button type="submit" class="btn btn-primary btn-lg">
+            Registrar
+        </button>
+        <button type="button" class="btn btn-secondary btn-lg" onclick="Voltar()">
+            Cancelar
+        </button>
+    </div>
+</form>
+
+<script>
+    function Voltar() {
+        window.location.href = "/PlanoConta/Index"
+    }
+</script>

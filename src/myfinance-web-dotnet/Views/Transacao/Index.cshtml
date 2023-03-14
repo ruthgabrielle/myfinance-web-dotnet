@@ -1,0 +1,94 @@
+@{
+    ViewData["Title"] = "Transações";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="div-buttons">
+    <button type="button" class="btn btn-block btn-primary" onclick="OpenReports()">Relatório de transações</button>
+    <button type="button" class="btn btn-block btn-primary" onclick="Register()">Registrar transação</button>
+</div>
+<hr />
+<table class="table table-dark table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Data</th>
+            <th scope="col">Value</th>
+            <th scope="col">Plano de Conta</th>
+            <th scope="col">Type da transação</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            foreach (var item in (List<TransacaoModel>)ViewBag.TransacaoLista)
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.Data</td>
+                    <td>@item.Valor</td>
+                    <td>@item.PlanoContaTransacao.Descricao</td>
+                    <td>@item.PlanoContaTransacao.Tipo</td>
+                    <td>
+                        <button type="button" class="btn btn-outline-warning" onclick="Edit(@item.Id)">
+                            Editar
+                        </button>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-outline-danger" onclick="OpenModal(@item.Id)">
+                            Excluir
+                        </button>
+                    </td>
+                </tr>
+
+                <div class="modal fade" id=@("modalTransacao" + @item.Id.ToString()) tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLongTitle">Confirmação</h5>
+                            </div>
+                            <div class="modal-body">
+                                Deseja realmente excluir a transação?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" id="delete" name="delete" class="btn btn-danger"
+                                    onclick="Delete(@item.Id.ToString())">Excluir</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                                    onclick="CloseModal(@item.Id.ToString())">Cancelar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </tbody>
+</table>
+
+<script>
+    function OpenReports() {
+        window.location.href = '../Transacao/Relatorio';
+    }
+
+    function Register() {
+        window.location.href = "/Transacao/Cadastrar"
+    }
+
+    function Edit(id) {
+        window.location.href = "/Transacao/Cadastrar/" + id
+    }
+
+    function Delete(id) {
+        window.location.href = "/Transacao/Excluir/" + id
+    }
+
+    function OpenModal(id) {
+        $('#modalTransacao' + id).modal('show');
+    }
+
+    function CloseModal(id) {
+        $('#modalTransacao' + id).modal('hide');
+    }
+</script>

@@ -1,0 +1,106 @@
+@model RelatorioTransacaoModel
+@{
+    ViewData["Title"] = "Relatório de transações por período";
+
+    var receitas = ViewBag.ReceitasBag;
+    var despesas = ViewBag.DespesasBag;
+
+    string vDataInicio = string.Empty;
+    string vDataFim = string.Empty;
+
+    if (Model.DataInicio != null)
+    {
+        vDataInicio = DateTime.Parse(Model.DataInicio.ToString()).ToString("yyyy-MM-dd");
+    }
+
+    if (Model.DataFim != null)
+    {
+        vDataFim = DateTime.Parse(Model.DataFim.ToString()).ToString("yyyy-MM-dd");
+    }
+}
+
+<h3>@ViewData["Title"]</h3>
+
+<hr>
+
+<form asp-controller="Transaction" asp-action="Reports">
+    <div class="form-group">
+        <label>Data inicial:</label>
+        <input type="date" class="form-control" asp-for="DataInicio" value="@vDataInicio">
+        <span asp-validation-for="DataInicio" class="text-danger"></span>
+        <label>Data final:</label>
+        <input type="date" class="form-control" asp-for="DataFim" value="@vDataFim">
+        <span asp-validation-for="DataInicio" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-block btn-success">Filtrar</button>
+    <td><button type="button" class="btn btn-block btn-warning" onclick="LoadDraft(@receitas, @despesas);">Gerar
+            Gráfico</button></td>
+</form>
+
+<hr>
+
+
+<table class="table table-bordered">
+    <tr>
+        <th>ID</th>
+        <th>Data da transação</th>
+        <th>Tipo (R/D)</th>
+        <th>Valor (R$)</th>
+        <th>Histórico</th>
+        <th>Plano de conta</th>
+    </tr>
+
+    @{
+        foreach (TransacaoModel transaction in Model.Transacoes)
+        {
+            <tr>
+                <td>@transaction.Id</td>
+                <td>@transaction.Data</td>
+                <td>@transaction.PlanoContaTransacao.Tipo</td>
+                <td>@transaction.Valor</td>
+                <td>@transaction.Historico</td>
+                <td>@transaction.PlanoContaTransacao.Descricao</td>
+            </tr>
+        }
+    }
+
+</table>
+
+<div style="margin-left: auto; margin-right: auto; width: 300px; height: 100px;">
+
+    <canvas id="transactionsChart" width="400px" height="400px"></canvas>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.js"></script>
+<script>
+    var chart = null;
+    function LoadDraft(r, d) {
+        if (chart != null) {
+            chart.destroy();
+        }
+        const data = {
+            labels: [
+                'Receitas',
+                'Despesas'
+            ],
+            datasets: [{
+                label: 'My First Dataset',
+                data: [r, d],
+                backgroundColor: [
+                    'rgb(255, 99, 132)',
+                    'rgb(54, 162, 235)'
+                ],
+                hoverOffset: 4
+            }]
+        };
+        const config = {
+            type: 'pie',
+            data: data
+        };
+        const ctx = document.getElementById('transactionsChart').getContext('2d');
+        const transactionsChart = new Chart(ctx, config);
+        chart = transactionsChart;
+    }
+</script>

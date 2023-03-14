@@ -9,6 +9,8 @@ namespace myfinance_web_dotnet.Models
         public decimal Valor { get; set; }
         public string? Historico { get; set; }
         public int PlanoContaId { get; set; }
+        public String PlanoContaTipo {get; set;}
+        public PlanoContaModel PlanoContaTransacao { get; set; }
         public IEnumerable<SelectListItem>? PlanoContas { get; set; }
     }
 }
