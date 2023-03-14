@@ -14,7 +14,7 @@ namespace myfinance_web_dotnet
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var connectionsString = @"Server=.\SQLEXPRESS;Database=myfinance;Trusted_Connection=True;TrustServerCertificate=True;";
+            var connectionsString = @"Server=NI-63732-3\SQLEXPRESS;Database=myfinance;Trusted_Connection=True;TrustServerCertificate=True;";
             optionsBuilder.UseSqlServer(connectionsString);
         }
 

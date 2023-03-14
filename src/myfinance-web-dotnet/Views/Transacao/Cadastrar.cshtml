@@ -5,7 +5,7 @@
 
 <h1>@ViewData["Title"]</h1>
 
-<form asp-controller="Transaction" asp-action="Register" method="post">
+<form asp-controller="Transaction" asp-action="Salvar" method="post">
 
     <div class="container">
         @Html.HiddenFor(m => m.Id)
@@ -24,6 +24,10 @@
             <label class="form-label">Plano de Conta</label>
             @Html.DropDownListFor(m => m.PlanoContaId, Model.PlanoContas, new { @class="form-select"})
         </div>
+    <div class="mb-3">
+            <label class="form-label">Escolha o tipo de pagamento</label>
+        @Html.DropDownList("PagamentoId", String.Empty)
+    </div>
 
         <div class="mb-3">
             <label class="form-label">Histórico</label>
